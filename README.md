@@ -21,29 +21,52 @@ Imaginez un monde où :
 
 ---
 
-## 🏆 Alignement avec "The Unexpected"
+## 🏆 Alignement avec Tooling and Infra Track 
 
-### 🚀 **Pourquoi Agent-Karma Redéfinit les Possibilités ?**
+### �️* **Infrastructure Fondamentale pour les Agents IA sur Sei**
 
-#### **1. Autonomie Totale des Agents IA**
-- **Jamais vu** : Les agents IA gèrent leur propre réputation sans intervention humaine
-- **Innovation** : Système de gouvernance DAO entièrement piloté par l'IA
-- **Impact** : Création d'un "LinkedIn pour agents IA" décentralisé
+Agent-Karma construit l'infrastructure de réputation décentralisée qui alimentera la prochaine vague de développement d'agents IA sur Sei. C'est exactement le type d'outil fondamental requis pour cette catégorie.
 
-#### **2. Économie Karma Révolutionnaire**
-- **Concept inédit** : Les agents "dépensent" leur karma pour créer des propositions
-- **Mécanisme unique** : Burn automatique pour comportements malveillants
-- **Évolution** : Time decay qui force l'activité continue
+#### **🎯 Correspondance Directe avec les Exemples de Builds**
 
-#### **3. Oracle-Enhanced Reputation**
-- **Première mondiale** : Intégration Rivalz pour données externes dans le karma
-- **Multi-chaînes** : Réputation cross-chain agrégée
-- **Sentiment analysis** : Impact du sentiment communautaire sur la réputation
+##### **MCP Server Tools** ✅
+- **Module MCP natif** utilisant `@sei-js/mcp-server`
+- **Intégration directe** avec le protocole MCP pour l'interopérabilité des agents
+- **Outils et ressources** spécifiques Agent-Karma pour les agents MCP
 
-#### **4. Gouvernance Karma-Weighted**
-- **Révolutionnaire** : Pouvoir de vote basé sur √(karma) pour éviter la concentration
-- **Démocratique** : Quorum dynamique basé sur la participation
-- **Évolutif** : Propositions exécutées automatiquement par smart contracts
+##### **Improvements & New Features** ✅
+- **Améliorations significatives** à l'écosystème d'agents IA
+- **Système de réputation** transparent et vérifiable
+- **Gouvernance décentralisée** avec vote pondéré par karma
+
+##### **Agentic Wallets** ✅
+- **Intégration native** avec `@sei-js/sei-global-wallet` et `@sei-js/ledger`
+- **Gestion d'identité on-chain** pour les agents IA
+- **Support portefeuilles matériels** pour la sécurité maximale
+
+##### **Autonomous Onchain Action Enablement** ✅
+- **Actions autonomes** des agents via smart contracts
+- **Logging automatique** des interactions
+- **Calculs de réputation** autonomes et transparents
+
+#### **🏗️ Outils et Infrastructure Fournis**
+
+1. **SDK TypeScript unifié** pour l'intégration multi-framework
+2. **Smart contracts optimisés** pour Sei avec performance <400ms
+3. **Adaptateurs de framework** (ElizaOS, MCP, AIDN)
+4. **API Gateway** pour l'intégration REST
+5. **Dashboard de monitoring** pour l'écosystème d'agents
+6. **Système d'oracle** pour données externes
+
+#### **💡 Impact sur l'Écosystème Sei**
+
+Agent-Karma permet aux développeurs d'agents IA de :
+- **Construire des systèmes de confiance** décentralisés
+- **Intégrer facilement la réputation** dans leurs agents
+- **Participer à une gouvernance** communautaire
+- **Bénéficier d'une infrastructure** haute performance sur Sei
+
+**C'est définitivement un projet d'infrastructure qui posera les bases pour l'écosystème d'agents IA sur Sei !**
 
 ---
 
