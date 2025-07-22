@@ -1,0 +1,55 @@
+{
+  "name": "agent-karma",
+  "version": "1.0.0",
+  "description": "Decentralized reputation system for AI agents built on Sei blockchain",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "sdk",
+    "api",
+    "dashboard"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "dev": "npm run dev --workspaces",
+    "clean": "npm run clean --workspaces",
+    "deploy:mvp": "node scripts/deploy-mvp.js",
+    "test:mvp": "node scripts/test-mvp-flow.js",
+    "mvp:full": "npm run deploy:mvp && npm run test:mvp",
+    "contracts:build": "cd contracts && cargo build --release --target wasm32-unknown-unknown",
+    "contracts:optimize": "cd contracts && docker run --rm -v \"$(pwd)\":/code --mount type=volume,source=\"$(basename \"$(pwd)\")_cache\",target=/code/target --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry cosmwasm/rust-optimizer:0.12.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/jest": "latest",
+    "@types/node": "^24.0.15",
+    "jest": "latest",
+    "ts-jest": "latest",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "latest",
+    "@cosmjs/stargate": "latest",
+    "@cosmos-kit/fin": "^2.14.1",
+    "@cosmos-kit/keplr": "^2.15.1",
+    "@cosmos-kit/react": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sabowaryan/agent-karma.git"
+  },
+  "keywords": [
+    "sei",
+    "blockchain",
+    "cosmwasm",
+    "ai-agents",
+    "reputation",
+    "karma"
+  ],
+  "author": "Agent-Karma Team",
+  "license": "MIT"
+}

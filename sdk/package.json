@@ -1,0 +1,56 @@
+{
+  "name": "@agent-karma/sdk",
+  "version": "1.0.0",
+  "description": "TypeScript SDK for Agent-Karma reputation system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "clean": "rimraf dist",
+    "lint": "eslint src --ext .ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cosmjs/stargate": "latest",
+    "@cosmjs/cosmwasm-stargate": "latest",
+    "@cosmjs/proto-signing": "latest",
+    "@cosmos-kit/core": "latest",
+    "@cosmos-kit/react": "latest",
+    "@cosmos-kit/sei": "latest",
+    "@sei-js/cosmjs": "latest",
+    "@sei-js/evm": "latest",
+    "@sei-js/proto": "latest",
+    "cosmjs-types": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest",
+    "jest": "latest",
+    "@types/jest": "latest",
+    "ts-jest": "latest",
+    "eslint": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "sei",
+    "blockchain",
+    "cosmwasm",
+    "sdk",
+    "typescript",
+    "ai-agents"
+  ],
+  "author": "Agent-Karma Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sabowaryan/agent-karma.git",
+    "directory": "sdk"
+  }
+}

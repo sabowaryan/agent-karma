@@ -1,0 +1,10 @@
+C:\Users\DELL\Documents\agent-karma\contracts\contracts\agent-registry\target\debug\deps\cranelift_egraph-7545f025831c66e6.d: C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\lib.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\bumpvec.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\ctxhash.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\unionfind.rs
+
+C:\Users\DELL\Documents\agent-karma\contracts\contracts\agent-registry\target\debug\deps\libcranelift_egraph-7545f025831c66e6.rlib: C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\lib.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\bumpvec.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\ctxhash.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\unionfind.rs
+
+C:\Users\DELL\Documents\agent-karma\contracts\contracts\agent-registry\target\debug\deps\libcranelift_egraph-7545f025831c66e6.rmeta: C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\lib.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\bumpvec.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\ctxhash.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\unionfind.rs
+
+C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\lib.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\bumpvec.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\ctxhash.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cranelift-egraph-0.91.1\src\unionfind.rs:

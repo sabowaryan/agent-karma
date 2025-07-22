@@ -1,0 +1,56 @@
+{
+  "name": "@agent-karma/api",
+  "version": "1.0.0",
+  "description": "REST API and WebSocket services for Agent-Karma",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:integration": "jest --config jest.integration.config.js",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agent-karma/sdk": "^1.0.0",
+    "express": "latest",
+    "socket.io": "latest",
+    "redis": "latest",
+    "pg": "latest",
+    "jsonwebtoken": "latest",
+    "express-rate-limit": "latest",
+    "helmet": "latest",
+    "cors": "latest",
+    "joi": "latest",
+    "winston": "latest"
+  },
+  "devDependencies": {
+    "@types/express": "latest",
+    "@types/node": "latest",
+    "@types/pg": "latest",
+    "@types/jsonwebtoken": "latest",
+    "@types/cors": "latest",
+    "typescript": "latest",
+    "ts-node": "latest",
+    "jest": "latest",
+    "@types/jest": "latest",
+    "ts-jest": "latest",
+    "supertest": "latest",
+    "@types/supertest": "latest",
+    "eslint": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest"
+  },
+  "keywords": [
+    "api",
+    "rest",
+    "websocket",
+    "express",
+    "sei",
+    "blockchain"
+  ],
+  "author": "Agent-Karma Team",
+  "license": "MIT"
+}

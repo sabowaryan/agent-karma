@@ -23,7 +23,7 @@ Imaginez un monde où :
 
 ## 🏆 Alignement avec Tooling and Infra Track 
 
-### �️* **Infrastructure Fondamentale pour les Agents IA sur Sei**
+### 🛠️ **Infrastructure Fondamentale pour les Agents IA sur Sei**
 
 Agent-Karma construit l'infrastructure de réputation décentralisée qui alimentera la prochaine vague de développement d'agents IA sur Sei. C'est exactement le type d'outil fondamental requis pour cette catégorie.
 
@@ -90,21 +90,19 @@ const karmaUpdate = await karmaCore.calculateKarma(agentAddress);
 #### **Architecture Hybride Sei**
 ```mermaid
 graph TB
-    subgraph "Sei Blockchain"
-        EVM[EVM Layer]
-        COSMOS[Cosmos SDK]
-        PRECOMPILES[Sei Precompiles]
-    end
-    
-    subgraph "Agent-Karma"
-        KARMA[Karma Engine]
-        DAO[Governance DAO]
-        ORACLE[Oracle Integration]
-    end
-    
-    EVM --> KARMA
-    COSMOS --> DAO
-    PRECOMPILES --> ORACLE
+subgraph "Sei Blockchain"
+EVM[EVM Layer]
+COSMOS[Cosmos SDK]
+PRECOMPILES[Sei Precompiles]
+end
+subgraph "Agent-Karma"
+KARMA[Karma Engine]
+DAO[Governance DAO]
+ORACLE[Oracle Integration]
+end
+EVM --> KARMA
+COSMOS --> DAO
+PRECOMPILES --> ORACLE
 ```
 
 ### 🚀 **Avantages Techniques Sei**
@@ -223,6 +221,7 @@ const karmaServer = new MCPServer({
 - **Propositions échouées** : coût karma
 
 ### ⚖️ **Restrictions Karma**
+
 | Action | Karma Minimum |
 |--------|---------------|
 | Interaction basique | 0 |
@@ -311,6 +310,116 @@ const karmaServer = new MCPServer({
 
 ---
 
+## 🏗️ Structure du Projet
+
+```
+agent-karma/
+├── contracts/              # Smart contracts (Solidity)
+│   ├── contracts/
+│   │   ├── agent-registry/     # Agent identity management
+│   │   ├── karma-core/         # Reputation calculation engine
+│   │   ├── interaction-logger/ # Audit trail logging
+│   │   └── governance-dao/     # Decentralized governance
+│   └── Cargo.toml
+├── sdk/                    # TypeScript SDK and integrations
+│   ├── src/
+│   │   ├── core/              # Core SDK functionality
+│   │   ├── integrations/      # Framework integrations (ElizaOS, MCP, AIDN)
+│   │   └── utils/             # Utility functions
+│   └── package.json
+├── api/                    # REST API and WebSocket services
+│   ├── src/
+│   │   ├── routes/            # API endpoints
+│   │   ├── services/          # Business logic
+│   │   └── middleware/        # Express middleware
+│   └── package.json
+├── dashboard/              # React frontend dashboard
+│   ├── src/                   # React components and pages
+│   └── package.json
+└── package.json           # Root package configuration
+```
+
+---
+
+## 🚀 Installation et Développement
+
+### 📋 **Prérequis**
+- Node.js 18+
+- Rust 1.70+
+- Cargo
+- Git
+
+### ⚡ **Installation Rapide**
+
+1. **Cloner le repository** :
+```bash
+git clone https://github.com/sabowaryan/agent-karma.git
+cd agent-karma
+```
+
+2. **Installer les dépendances** :
+```bash
+npm install
+```
+
+3. **Build tous les packages** :
+```bash
+npm run build
+```
+
+4. **Démarrer l'environnement de développement** :
+```bash
+npm run dev
+```
+
+### 🔧 **Développement Smart Contracts**
+
+```bash
+cd contracts
+cargo build
+cargo test
+```
+
+### 📱 **Utilisation du SDK**
+
+```typescript
+import { AgentKarmaSDK } from '@agent-karma/sdk';
+
+const sdk = new AgentKarmaSDK({
+  rpcEndpoint: 'https://rpc.sei-apis.com',
+  chainId: 'sei-chain',
+  contractAddresses: {
+    agentRegistry: 'sei1...',
+    karmaCore: 'sei1...',
+    interactionLogger: 'sei1...',
+    governanceDao: 'sei1...'
+  }
+});
+
+// Enregistrer un agent
+await sdk.registerAgent({
+  metadata: { 
+    name: 'MonAgent', 
+    description: 'Agent IA spécialisé en...',
+    capabilities: ['nlp', 'reasoning', 'planning']
+  }
+});
+
+// Soumettre une évaluation
+await sdk.submitRating({
+  raterAddress: 'sei1...',
+  ratedAddress: 'sei1...',
+  score: 8,
+  interactionHash: '0x...',
+  context: 'Collaboration sur projet X'
+});
+
+// Obtenir le karma d'un agent
+const karma = await sdk.getKarmaScore('sei1...');
+```
+
+---
+
 ## 🔮 Vision Future
 
 ### 🌟 **Agent-Karma 2.0**
@@ -320,6 +429,7 @@ const karmaServer = new MCPServer({
 - **Quantum-Ready** : Préparation cryptographie quantique
 
 ### 🚀 **Impact Écosystème**
+
 Agent-Karma ambitionne de devenir le **standard de facto** pour la réputation d'agents IA, créant un écosystème où l'intelligence artificielle peut opérer de manière autonome, transparente et fiable.
 
 ---

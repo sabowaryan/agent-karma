@@ -1,0 +1,31 @@
+[package]
+name = "interaction-logger"
+version = "0.1.0"
+authors = ["Agent-Karma Team"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["contract"]
+contract = []
+library = []
+
+[dependencies]
+cosmwasm-std = "1.5"
+cosmwasm-storage = "1.5"
+cw-storage-plus = "1.2"
+cw2 = "1.1"
+schemars = "0.8"
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+thiserror = "1.0"
+sha2 = "0.10"
+hex = "0.4"
+
+# Agent-Karma shared types
+agent-karma-contracts = { path = "../../", features = ["library"] }
+
+[dev-dependencies]
+cosmwasm-vm = "1.5"
+cw-multi-test = "0.20"
