@@ -279,3 +279,142 @@ Le SDK Agent-Karma est distribué sous la licence MIT. Voir le fichier `LICENSE`
 
 *Cette documentation a été générée par Manus AI.*
 
+
+
+## Adaptateurs de Framework
+
+Le SDK Agent-Karma est conçu pour s'intégrer facilement avec divers frameworks d'agents IA. Des adaptateurs spécifiques sont fournis pour simplifier cette intégration, permettant aux agents de ces frameworks de journaliser les interactions et de gérer leur réputation de manière transparente.
+
+### Adaptateur ElizaOS
+
+L'adaptateur ElizaOS permet aux agents développés avec le framework ElizaOS de se connecter au système Agent-Karma. Il fournit des méthodes pour intercepter les interactions des agents et les enregistrer sur la blockchain Sei.
+
+**Installation :**
+
+```bash
+npm install @agent-karma/sdk
+```
+
+**Exemple d'utilisation :**
+
+```typescript
+import { AgentKarmaSDK } from '@agent-karma/sdk';
+import { AgentKarmaElizaOSPlugin } from '@agent-karma/sdk/dist/integrations/elizaos'; // Assurez-vous du chemin correct après la compilation
+
+// Initialisez votre SDK Agent-Karma
+const sdk = new AgentKarmaSDK({
+  rpcEndpoint: 'https://rpc.testnet.sei.io',
+  chainId: 'atlantic-2',
+  contractAddresses: {
+    agentRegistry: 'sei1...', // Remplacez par vos adresses de contrat
+    karmaCore: 'sei1...', 
+    interactionLogger: 'sei1...', 
+    governanceDao: 'sei1...'
+  }
+});
+await sdk.connect();
+
+// Initialisez le plugin ElizaOS avec votre SDK
+const elizaOSPlugin = new AgentKarmaElizaOSPlugin(sdk);
+
+// Dans votre logique ElizaOS, appelez onInteraction lorsque des interactions se produisent
+// Exemple (simulé):
+elizaOSPlugin.onInteraction({
+  agentId: sdk.getSignerAddress(),
+  otherAgentId: 'sei1participant2',
+  type: 'data_exchange',
+  metadata: { duration: 120, outcome: 'success' }
+});
+
+// Vous pouvez également récupérer le karma d'un agent via le plugin
+const karmaScore = await elizaOSPlugin.getAgentKarma('sei1someagent');
+console.log('Karma score for agent:', karmaScore);
+```
+
+### Adaptateur MCP (Modular Chain Protocol)
+
+L'adaptateur MCP facilite l'intégration avec les serveurs MCP, permettant aux agents utilisant ce protocole de communiquer leurs interactions au système Agent-Karma. Il écoute les événements MCP et les traduit en enregistrements d'interaction on-chain.
+
+**Installation :**
+
+```bash
+npm install @agent-karma/sdk
+```
+
+**Exemple d'utilisation :**
+
+```typescript
+import { AgentKarmaSDK } from '@agent-karma/sdk';
+import { AgentKarmaMCPPlugin } from '@agent-karma/sdk/dist/integrations/mcp'; // Assurez-vous du chemin correct après la compilation
+
+// Initialisez votre SDK Agent-Karma
+const sdk = new AgentKarmaSDK({
+  rpcEndpoint: 'https://rpc.testnet.sei.io',
+  chainId: 'atlantic-2',
+  contractAddresses: {
+    agentRegistry: 'sei1...', // Remplacez par vos adresses de contrat
+    karmaCore: 'sei1...', 
+    interactionLogger: 'sei1...', 
+    governanceDao: 'sei1...'
+  }
+});
+await sdk.connect();
+
+// Supposons que vous ayez une instance de votre serveur MCP
+// const myMCPServer = new MCPServer(...);
+
+// Initialisez le plugin MCP avec votre SDK et votre serveur MCP
+// const mcpPlugin = new AgentKarmaMCPPlugin(sdk, myMCPServer);
+
+// Le plugin écoutera automatiquement les événements d'interaction du serveur MCP
+// et les journalisera via le SDK Agent-Karma.
+
+// Vous pouvez également récupérer le karma d'un agent via le plugin
+// const karmaScore = await mcpPlugin.getAgentKarma('sei1someagent');
+// console.log('Karma score for agent:', karmaScore);
+```
+
+### Adaptateur AIDN (AI Decentralized Network)
+
+L'adaptateur AIDN est conçu pour les agents opérant au sein d'un réseau décentralisé d'IA. Il permet de capturer les interactions significatives au sein de l'AIDN et de les soumettre au système Agent-Karma pour le calcul de la réputation.
+
+**Installation :**
+
+```bash
+npm install @agent-karma/sdk
+```
+
+**Exemple d'utilisation :**
+
+```typescript
+import { AgentKarmaSDK } from '@agent-karma/sdk';
+import { AgentKarmaAIDNPlugin } from '@agent-karma/sdk/dist/integrations/aidn'; // Assurez-vous du chemin correct après la compilation
+
+// Initialisez votre SDK Agent-Karma
+const sdk = new AgentKarmaSDK({
+  rpcEndpoint: 'https://rpc.testnet.sei.io',
+  chainId: 'atlantic-2',
+  contractAddresses: {
+    agentRegistry: 'sei1...', // Remplacez par vos adresses de contrat
+    karmaCore: 'sei1...', 
+    interactionLogger: 'sei1...', 
+    governanceDao: 'sei1...'
+  }
+});
+await sdk.connect();
+
+// Supposons que vous ayez une instance de votre client AIDN
+// const myAIDNClient = new AIDNClient(...);
+
+// Initialisez le plugin AIDN avec votre SDK et votre client AIDN
+// const aidnPlugin = new AgentKarmaAIDNPlugin(sdk, myAIDNClient);
+
+// Le plugin écoutera automatiquement les événements d'interaction du client AIDN
+// et les journalisera via le SDK Agent-Karma.
+
+// Vous pouvez également récupérer le karma d'un agent via le plugin
+// const karmaScore = await aidnPlugin.getAgentKarma('sei1someagent');
+// console.log('Karma score for agent:', karmaScore);
+```
+
+

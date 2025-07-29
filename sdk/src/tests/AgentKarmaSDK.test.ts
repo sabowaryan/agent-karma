@@ -1,20 +1,6 @@
 import { AgentKarmaSDK } from "../core/AgentKarmaSDK";
 import { AgentKarmaConfig, AgentMetadata, InteractionData } from "../types";
 
-// Mock des adresses de contrat pour les tests
-const mockContractAddresses = {
-  agentRegistry: "sei1agentregistrymockaddress",
-  karmaCore: "sei1karmacoremockaddress",
-  interactionLogger: "sei1interactionloggermockaddress",
-  governanceDao: "sei1governancedaomockaddress",
-};
-
-const mockConfig: AgentKarmaConfig = {
-  rpcEndpoint: "https://rpc.testnet.sei.io",
-  chainId: "atlantic-2",
-  contractAddresses: mockContractAddresses,
-};
-
 // Utiliser un mnémonique de test (à ne jamais utiliser en production !)
 const testMnemonic = "notice grid cable desk parade obtain latin velvet sport adult december vibrant";
 
@@ -22,6 +8,18 @@ describe("AgentKarmaSDK Integration Tests", () => {
   let sdk: AgentKarmaSDK;
 
   beforeAll(async () => {
+    const mockContractAddresses = {
+      agentRegistry: "sei1agentregistrymockaddress",
+      karmaCore: "sei1karmacoremockaddress",
+      interactionLogger: "sei1interactionloggermockaddress",
+      governanceDao: "sei1governancedaomockaddress",
+    };
+
+    const mockConfig: AgentKarmaConfig = {
+      rpcEndpoint: "https://rpc.testnet.sei.io",
+      chainId: "atlantic-2",
+      contractAddresses: mockContractAddresses,
+    };
     sdk = new AgentKarmaSDK(mockConfig, { mnemonic: testMnemonic });
     await sdk.connect();
   });
@@ -76,7 +74,7 @@ describe("AgentKarmaSDK Integration Tests", () => {
 
   it("should get agent information", async () => {
     // Note: This test assumes the agent from registerAgent test is available
-    // In a real scenario, you\'d register a known agent or query an existing one.
+    // In a real scenario, you\\'d register a known agent or query an existing one.
     const agentAddress = sdk.getSignerAddress()!;
     const agent = await sdk.getAgent(agentAddress);
     expect(agent).toBeDefined();
@@ -112,5 +110,7 @@ describe("AgentKarmaSDK Integration Tests", () => {
     console.log("Performance Measurements:", measurements);
   });
 });
+
+
 
 
