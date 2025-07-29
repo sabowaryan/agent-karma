@@ -17,9 +17,14 @@ describe("Agent Karma MVP", function () {
         agentRegistry = await AgentRegistryFactory.deploy();
         await agentRegistry.waitForDeployment();
 
+        // Deploy OracleIntegration
+        const OracleIntegrationFactory = await ethers.getContractFactory("OracleIntegration");
+        oracleIntegration = await OracleIntegrationFactory.deploy(agentRegistry.target);
+        await oracleIntegration.waitForDeployment();
+
         // Deploy KarmaCore
         const KarmaCoreFactory = await ethers.getContractFactory("KarmaCore");
-        karmaCore = await KarmaCoreFactory.deploy(agentRegistry.target);
+        karmaCore = await KarmaCoreFactory.deploy(agentRegistry.target, oracleIntegration.target);
         await karmaCore.waitForDeployment();
 
         // Deploy InteractionLogger

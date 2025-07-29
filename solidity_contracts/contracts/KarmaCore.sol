@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./AgentRegistry.sol";
+import "./OracleIntegration.sol";
 
 contract KarmaCore {
     struct Rating {
@@ -42,19 +43,33 @@ contract KarmaCore {
     }
 
     AgentRegistry public agentRegistry;
+    OracleIntegration public oracleIntegration;
     mapping(address => uint256) public karmaScores;
     mapping(bytes32 => Rating) public ratings;
     mapping(address => mapping(bytes32 => bool)) public hasRatedInteraction;
     mapping(address => Rating[]) public agentRatings;
     mapping(address => KarmaCalculation[]) public karmaHistory;
+    mapping(address => uint256) public spamScores;
+    mapping(address => uint256) public lastRatingTimestamp;
     
+    address public owner;
+
     KarmaConfig public config;
 
     event RatingSubmitted(address indexed rater, address indexed ratedAgent, uint8 score, bytes32 interactionHash);
     event KarmaScoreUpdated(address indexed agentAddress, uint256 newScore, uint256 oldScore);
+    event AgentPenalized(address indexed agentAddress, uint256 penaltyAmount);
+    event AgentRewarded(address indexed agentAddress, uint256 rewardAmount);
 
-    constructor(address _agentRegistry) {
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
+
+    constructor(address _agentRegistry, address _oracleIntegration) {
         agentRegistry = AgentRegistry(_agentRegistry);
+        oracleIntegration = OracleIntegration(_oracleIntegration);
+        owner = msg.sender;
         config = KarmaConfig({
             minKarmaForRating: 0,
             minKarmaForVoting: 50,
@@ -76,6 +91,10 @@ contract KarmaCore {
         require(score >= 1 && score <= 10, "Score must be between 1 and 10");
         require(!hasRatedInteraction[msg.sender][interactionHash], "Already rated this interaction");
         require(karmaScores[msg.sender] >= config.minKarmaForRating, "Insufficient karma to rate");
+
+        // Abuse detection
+        _detectAbuse(msg.sender, ratedAgent, score);
+        _applyKarmaPenalty(msg.sender);
 
         bytes32 ratingId = keccak256(abi.encodePacked(msg.sender, ratedAgent, interactionHash, block.timestamp));
         
@@ -103,6 +122,17 @@ contract KarmaCore {
         emit KarmaScoreUpdated(ratedAgent, newScore, oldScore);
     }
 
+    function _stringToUint(string memory s) internal pure returns (uint256) {
+        bytes memory b = bytes(s);
+        uint256 res = 0;
+        for (uint i = 0; i < b.length; i++) {
+            if (uint8(b[i]) >= 48 && uint8(b[i]) <= 57) {
+                res = res * 10 + (uint256(uint8(b[i])) - 48);
+            }
+        }
+        return res;
+    }
+
     function _calculateNewKarmaScore(address agentAddress) internal view returns (uint256) {
         Rating[] memory ratings = agentRatings[agentAddress];
         if (ratings.length == 0) return 0;
@@ -125,7 +155,16 @@ contract KarmaCore {
         // Apply interaction frequency bonus
         uint256 frequencyBonus = validRatings > 10 ? 10 : validRatings;
         
-        return averageScore + frequencyBonus;
+        // Incorporate external factors from OracleIntegration
+        uint256 externalFactor = 0;
+        try oracleIntegration.getLatestOracleData("agent_performance") returns (OracleIntegration.OracleData memory oracleData) {
+            externalFactor = _stringToUint(oracleData.data);
+        } catch {
+            // Handle error if oracle data is not available or invalid
+            externalFactor = 0;
+        }
+
+        return averageScore + frequencyBonus + externalFactor;
     }
 
     function calculateKarma(address agentAddress) public view returns (KarmaCalculation memory) {
@@ -226,6 +265,45 @@ contract KarmaCore {
             value /= 10;
         }
         return string(buffer);
+    }
+
+    function _detectAbuse(address rater, address ratedAgent, uint8 score) internal {
+        // Example: Detect rapid consecutive ratings from the same rater
+        if (block.timestamp - lastRatingTimestamp[rater] < 60) { // Less than 60 seconds between ratings
+            spamScores[rater]++; // Increment spam score
+        }
+
+        // Example: Detect unusually high/low scores for a new agent
+        // This would require historical data or comparison with other agents, potentially from Oracle.
+
+        // Example: Detect collusive behavior (rater and ratedAgent frequently interacting with extreme scores)
+        // This would require analyzing interaction patterns, potentially from InteractionLogger.
+    }
+
+    function _applyKarmaPenalty(address rater) internal {
+        // Example: Apply a penalty if spam score is too high
+        if (spamScores[rater] > 5) {
+            karmaScores[rater] = karmaScores[rater] / 2; // Halve karma for severe abuse
+            spamScores[rater] = 0; // Reset spam score after penalty
+        }
+
+        // Example: Implement rate limiting for ratings
+        lastRatingTimestamp[rater] = block.timestamp;
+    }
+
+    // Function to manually penalize an agent (e.g., by governance DAO)
+    function penalizeAgent(address agentAddress, uint256 penaltyAmount) external onlyOwner {
+        require(karmaScores[agentAddress] >= penaltyAmount, "Penalty exceeds current karma");
+        karmaScores[agentAddress] -= penaltyAmount;
+        emit AgentPenalized(agentAddress, penaltyAmount);
+        emit KarmaScoreUpdated(agentAddress, karmaScores[agentAddress], karmaScores[agentAddress] + penaltyAmount);
+    }
+
+    // Function to manually reward an agent (e.g., by governance DAO for good behavior)
+    function rewardAgent(address agentAddress, uint256 rewardAmount) external onlyOwner {
+        karmaScores[agentAddress] += rewardAmount;
+        emit AgentRewarded(agentAddress, rewardAmount);
+        emit KarmaScoreUpdated(agentAddress, karmaScores[agentAddress], karmaScores[agentAddress] - rewardAmount);
     }
 }
 

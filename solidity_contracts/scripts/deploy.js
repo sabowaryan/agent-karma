@@ -1,15 +1,23 @@
 const hre = require("hardhat");
 
 async function main() {
+  let oracleIntegrationInstance; // Renamed to avoid conflict
+
   // Deploy AgentRegistry
   const AgentRegistry = await hre.ethers.getContractFactory("AgentRegistry");
   const agentRegistry = await AgentRegistry.deploy();
   await agentRegistry.waitForDeployment();
   console.log(`AgentRegistry deployed to ${agentRegistry.target}`);
 
+  // Deploy OracleIntegration
+  const OracleIntegration = await hre.ethers.getContractFactory("OracleIntegration");
+  oracleIntegrationInstance = await OracleIntegration.deploy(agentRegistry.target);
+  await oracleIntegrationInstance.waitForDeployment();
+  console.log(`OracleIntegration deployed to ${oracleIntegrationInstance.target}`);
+
   // Deploy KarmaCore
   const KarmaCore = await hre.ethers.getContractFactory("KarmaCore");
-  const karmaCore = await KarmaCore.deploy(agentRegistry.target);
+  const karmaCore = await KarmaCore.deploy(agentRegistry.target, oracleIntegrationInstance.target);
   await karmaCore.waitForDeployment();
   console.log(`KarmaCore deployed to ${karmaCore.target}`);
 
@@ -24,12 +32,6 @@ async function main() {
   const governanceDAO = await GovernanceDAO.deploy(agentRegistry.target, karmaCore.target);
   await governanceDAO.waitForDeployment();
   console.log(`GovernanceDAO deployed to ${governanceDAO.target}`);
-
-  // Deploy OracleIntegration
-  const OracleIntegration = await hre.ethers.getContractFactory("OracleIntegration");
-  const oracleIntegration = await OracleIntegration.deploy(agentRegistry.target);
-  await oracleIntegration.waitForDeployment();
-  console.log(`OracleIntegration deployed to ${oracleIntegration.target}`);
 }
 
 main().catch((error) => {
