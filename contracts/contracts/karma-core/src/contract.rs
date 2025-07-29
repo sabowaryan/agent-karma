@@ -24,10 +24,7 @@ use crate::karma::{
     calculate_karma_score, update_karma_score, validate_rating_score, validate_rating_window,
     validate_rating_window_with_hash,
 };
-use crate::state::{
-    ratings, Config, RatingTracker, StoredRating, CONFIG, KARMA_HISTORY, KARMA_SCORES, LEADERBOARD,
-    ORACLE_DATA, RATING_COUNTER, RATING_TRACKERS,
-};
+use crate::state::{ratings, Config, RatingTracker, StoredRating, CONFIG, KARMA_HISTORY, KARMA_SCORES, LEADERBOARD, ORACLE_DATA, RATING_COUNTER, RATING_TRACKERS, COMPLIANCE_VIOLATIONS, DISPUTE_CASES, RATE_LIMIT_TRACKERS};
 
 // Contract name and version for migration
 const CONTRACT_NAME: &str = "karma-core";
@@ -366,13 +363,13 @@ pub fn execute_process_oracle_data(
 }
 
 #[entry_point]
-pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
         QueryMsg::GetKarmaScore { agent_address } => {
-            to_json_binary(&query_get_karma_score(deps, agent_address)?)
+            to_json_binary(&query_get_karma_score(deps, env, agent_address)?)
         }
         QueryMsg::GetKarmaCalculation { agent_address } => {
-            to_json_binary(&query_get_karma_calculation(deps, agent_address)?)
+            to_json_binary(&query_get_karma_calculation(deps, env, agent_address)?)
         }
         QueryMsg::GetKarmaHistory {
             agent_address,
@@ -380,6 +377,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
             limit,
         } => to_json_binary(&query_get_karma_history(
             deps,
+            env,
             agent_address,
             start_after,
             limit,
@@ -419,13 +417,14 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
             action_type,
         } => to_json_binary(&query_get_rate_limit_status(
             deps,
+            env,
             agent_address,
             action_type,
         )?),
     }
 }
 
-pub fn query_get_karma_score(deps: Deps, agent_address: String) -> StdResult<KarmaScoreResponse> {
+pub fn query_get_karma_score(deps: Deps, _env: Env, agent_address: String) -> StdResult<KarmaScoreResponse> {
     let karma = KARMA_SCORES
         .may_load(deps.storage, &agent_address)?
         .unwrap_or_default();
@@ -438,6 +437,7 @@ pub fn query_get_karma_score(deps: Deps, agent_address: String) -> StdResult<Kar
 
 pub fn query_get_karma_calculation(
     deps: Deps,
+    _env: Env,
     agent_address: String,
 ) -> StdResult<KarmaCalculationResponse> {
     let agent_addr = deps.api.addr_validate(&agent_address)?;
@@ -475,6 +475,7 @@ pub fn query_get_karma_calculation(
 
 pub fn query_get_karma_history(
     deps: Deps,
+    _env: Env,
     agent_address: String,
     start_after: Option<cosmwasm_std::Timestamp>,
     limit: Option<u32>,
@@ -525,7 +526,7 @@ pub fn query_get_leaderboard(deps: Deps, limit: Option<u32>) -> StdResult<Leader
         .take(limit)
         .map(|item| {
             let (karma_score, agent_address) = item?;
-            let karma = KARMA_SCORES.load(deps.storage, &agent_address)?;
+            let agent_karma_score = KARMA_SCORES.load(deps.storage, &agent_address)?;
 
             Ok(LeaderboardEntry {
                 agent_address: Addr::unchecked(&agent_address),
@@ -563,7 +564,7 @@ pub fn query_get_compliance_violations(
     let violations: StdResult<Vec<_>> = crate::state::COMPLIANCE_VIOLATIONS
         .range(deps.storage, start_bound, None, Order::Ascending)
         .filter_map(|item| match item {
-            Ok((violation_id, violation)) => {
+            Ok((_violation_id, violation)) => {
                 if violation.agent_address.to_string() == agent_address {
                     Some(Ok(
                         agent_karma_contracts::messages::karma_core::ComplianceViolation {
@@ -603,7 +604,7 @@ pub fn query_get_dispute_cases(
     let cases: StdResult<Vec<_>> = crate::state::DISPUTE_CASES
         .range(deps.storage, start_bound, None, Order::Ascending)
         .filter_map(|item| match item {
-            Ok((case_id, case)) => {
+            Ok((_case_id, case)) => {
                 let case_status = format!("{:?}", case.status);
                 if status.is_none() || status.as_ref() == Some(&case_status) {
                     Some(Ok(
@@ -638,7 +639,17 @@ pub fn query_get_abuse_detection_results(
     let agent_addr = deps.api.addr_validate(&agent_address)?;
 
     // Create a mock environment for detection (in real implementation, would use current env)
-    let mock_env = cosmwasm_std::testing::mock_env();
+    let mock_env = cosmwasm_std::Env {
+        block: cosmwasm_std::BlockInfo {
+            height: 0,
+            time: cosmwasm_std::Timestamp::from_seconds(0),
+            chain_id: "test".to_string(),
+        },
+        transaction: None,
+        contract: cosmwasm_std::ContractInfo {
+            address: cosmwasm_std::Addr::unchecked("contract"),
+        },
+    };
 
     // Run abuse detection
     let detection_results =
@@ -660,6 +671,7 @@ pub fn query_get_abuse_detection_results(
 
 pub fn query_get_rate_limit_status(
     deps: Deps,
+    _env: Env,
     agent_address: String,
     action_type: String,
 ) -> StdResult<RateLimitStatusResponse> {
@@ -669,7 +681,7 @@ pub fn query_get_rate_limit_status(
     let tracker =
         crate::state::RATE_LIMIT_TRACKERS.may_load(deps.storage, agent_address.as_str())?;
 
-    let current_time = cosmwasm_std::testing::mock_env().block.time;
+    let current_time = _env.block.time;
     let window_duration = crate::compliance::RATING_PATTERN_WINDOW;
 
     let (current_count, limit, window_start, remaining_actions) = if let Some(tracker) = tracker {
@@ -951,3 +963,5 @@ pub fn update_leaderboard(
 
     Ok(())
 }
+
+

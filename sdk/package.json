@@ -18,7 +18,7 @@
     "@cosmjs/proto-signing": "latest",
     "@cosmos-kit/core": "latest",
     "@cosmos-kit/react": "latest",
-    "@cosmos-kit/sei": "latest",
+
     "@sei-js/cosmjs": "latest",
     "@sei-js/evm": "latest",
     "@sei-js/proto": "latest",
