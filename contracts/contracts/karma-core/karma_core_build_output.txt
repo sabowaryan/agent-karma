@@ -1,0 +1,152 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /home/ubuntu/agent-karma/contracts/contracts/karma-core/Cargo.toml
+workspace: /home/ubuntu/agent-karma/contracts/Cargo.toml
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /home/ubuntu/agent-karma/contracts/contracts/oracle-integration/Cargo.toml
+workspace: /home/ubuntu/agent-karma/contracts/Cargo.toml
+warning: unused import: `check_karma_requirement`
+  --> contracts/karma-core/src/contract.rs:19:26
+   |
+19 |     apply_karma_penalty, check_karma_requirement, check_minimum_requirem...
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `validate_rating_window`
+  --> contracts/karma-core/src/contract.rs:24:71
+   |
+24 | ...validate_rating_score, validate_rating_window,
+   |                           ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `COMPLIANCE_VIOLATIONS`, `DISPUTE_CASES`, and `RATE_LIMIT_TRACKERS`
+  --> contracts/karma-core/src/contract.rs:27:162
+   |
+27 | ...KERS, COMPLIANCE_VIOLATIONS, DISPUTE_CASES, RATE_LIMIT_TRACKERS};
+   |          ^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `KarmaFactors`
+ --> contracts/karma-core/src/state.rs:5:75
+  |
+5 | ...rmaCalculation, KarmaConfig, KarmaFactors};
+  |                                 ^^^^^^^^^^^^
+
+warning: unused import: `Rating`
+ --> contracts/karma-core/src/karma.rs:5:68
+  |
+5 | use agent_karma_contracts::types::{KarmaCalculation, KarmaFactors, Rating};
+  |                                                                    ^^^^^^
+
+warning: unused import: `std::str::FromStr`
+ --> contracts/karma-core/src/karma.rs:7:5
+  |
+7 | use std::str::FromStr;
+  |     ^^^^^^^^^^^^^^^^^
+
+warning: unused import: `cw_storage_plus::Bound`
+ --> contracts/karma-core/src/compliance.rs:7:5
+  |
+7 | use cw_storage_plus::Bound;
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `agent_karma_contracts::types::Rating`
+  --> contracts/karma-core/src/compliance.rs:12:5
+   |
+12 | use agent_karma_contracts::types::Rating;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused variable: `karma_earned`
+   --> contracts/karma-core/src/contract.rs:235:9
+    |
+235 |     let karma_earned =
+    |         ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_karma_earned`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `karma_penalty`
+   --> contracts/karma-core/src/contract.rs:237:9
+    |
+237 |     let karma_penalty = apply_karma_penalty(deps.branch(), &rated_agent...
+    |         ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_karma_penalty`
+
+warning: unused variable: `agent_karma_score`
+   --> contracts/karma-core/src/contract.rs:529:17
+    |
+529 |             let agent_karma_score = KARMA_SCORES.load(deps.storage, &ag...
+    |                 ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_agent_karma_score`
+
+warning: unused variable: `config`
+  --> contracts/karma-core/src/karma.rs:40:9
+   |
+40 |     let config = CONFIG.load(deps.storage)?;
+   |         ^^^^^^ help: if this is intentional, prefix it with an underscore: `_config`
+
+warning: unused variable: `deps`
+   --> contracts/karma-core/src/karma.rs:227:5
+    |
+227 |     deps: Deps,
+    |     ^^^^ help: if this is intentional, prefix it with an underscore: `_deps`
+
+warning: unused variable: `agent_address`
+   --> contracts/karma-core/src/karma.rs:228:5
+    |
+228 |     agent_address: &Addr,
+    |     ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_agent_address`
+
+warning: unused variable: `agent_address`
+   --> contracts/karma-core/src/karma.rs:295:5
+    |
+295 |     agent_address: &Addr,
+    |     ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_agent_address`
+
+warning: unused variable: `deps`
+   --> contracts/karma-core/src/karma.rs:489:38
+    |
+489 | ..._oracle_freshness_factor(deps: Deps, agent_address: &Addr) -> Result...
+    |                             ^^^^ help: if this is intentional, prefix it with an underscore: `_deps`
+
+warning: unused variable: `agent_address`
+   --> contracts/karma-core/src/karma.rs:489:50
+    |
+489 | ...s_factor(deps: Deps, agent_address: &Addr) -> Result<f64, ContractEr...
+    |                         ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_agent_address`
+
+warning: unused variable: `deps`
+   --> contracts/karma-core/src/karma.rs:576:5
+    |
+576 |     deps: Deps,
+    |     ^^^^ help: if this is intentional, prefix it with an underscore: `_deps`
+
+warning: unused variable: `window_start`
+   --> contracts/karma-core/src/compliance.rs:374:9
+    |
+374 |     let window_start = current_time.minus_seconds(RATING_PATTERN_WINDOW);
+    |         ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_window_start`
+
+warning: function `calculate_base_score` is never used
+   --> contracts/karma-core/src/karma.rs:190:4
+    |
+190 | fn calculate_base_score(ratings: &[(String, crate::state::StoredRating)...
+    |    ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+warning: function `calculate_interaction_bonus` is never used
+   --> contracts/karma-core/src/karma.rs:284:4
+    |
+284 | fn calculate_interaction_bonus(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `calculate_contextual_modifiers` is never used
+   --> contracts/karma-core/src/karma.rs:394:4
+    |
+394 | fn calculate_contextual_modifiers(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `calculate_external_factors` is never used
+   --> contracts/karma-core/src/karma.rs:496:4
+    |
+496 | fn calculate_external_factors(deps: Deps, agent_address: &Addr) -> Resu...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `karma-core` (lib) generated 23 warnings (run `cargo fix --lib -p karma-core` to apply 8 suggestions)
+    Finished `release` profile [optimized] target(s) in 0.08s

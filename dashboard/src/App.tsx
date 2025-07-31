@@ -1,15 +1,14 @@
+import React from 'react';
+import Dashboard from './components/Dashboard/Dashboard';
 import './index.css';
-import { WalletConnectButton, Homepage } from './components';
 
 function App() {
-	return (
-		<>
-			<div className="header">
-				<WalletConnectButton />
-			</div>
-			<Homepage />
-		</>
-	);
+  return (
+    <div className="App">
+      <Dashboard />
+    </div>
+  );
 }
 
 export default App;
+

@@ -118,7 +118,6 @@ export interface AgentKarmaConfig {
     governanceDao: string;
   };
 }
-
 export interface PerformanceMetric {
   operation: string;
   responseTime: number;
